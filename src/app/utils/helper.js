@@ -6,6 +6,8 @@ export const getUserResult = (user) => ({
   email: user.email,
   fullName: user.fullName,
   avatar: user.avatar,
+  gender: user.gender,
+  birthdate: user.birthdate,
 })
 
 export const generateCode = () => {
