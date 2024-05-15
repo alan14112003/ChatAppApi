@@ -13,4 +13,5 @@ uploadRouter.post(
   UploadController.uploadSingleFile
 )
 
+uploadRouter.delete('/single', UploadController.deleteSingleFile)
 export default uploadRouter

@@ -2,7 +2,7 @@ import CloudinaryConfig from '@/config/Cloudinary'
 import sendMail from '@/config/SendMail'
 
 export const getUserResult = (user) => ({
-  id: user.id,
+  _id: user._id,
   email: user.email,
   fullName: user.fullName,
   avatar: user.avatar,
@@ -65,4 +65,10 @@ export const uploadSingleFileCloud = async (file, path) => {
     url: uploadResponse.url,
     publicId: uploadResponse.public_id,
   }
+}
+
+export const deleteSingleFileCloud = async (public_id) => {
+  const deleteResponse = await CloudinaryConfig.uploader.destroy(public_id)
+
+  return deleteResponse
 }

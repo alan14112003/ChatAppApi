@@ -1,4 +1,7 @@
-const { uploadSingleFileCloud } = require('@/app/utils/helper')
+const {
+  uploadSingleFileCloud,
+  deleteSingleFileCloud,
+} = require('@/app/utils/helper')
 
 const uploadSingleFile = async (req, res, next) => {
   try {
@@ -24,7 +27,25 @@ const uploadSingleFile = async (req, res, next) => {
     next(error)
   }
 }
+const deleteSingleFile = async (req, res, next) => {
+  try {
+    const { path } = await req.body
+
+    if (!path) {
+      return res.status(422).json({
+        message: 'path is required',
+      })
+    }
+
+    const deleted = await deleteSingleFileCloud(path)
+    return res.status(200).json(deleted)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
 
 export default {
   uploadSingleFile,
+  deleteSingleFile,
 }
