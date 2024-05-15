@@ -21,7 +21,15 @@ const app = express()
 app.use(express.static(path.join(__dirname, 'public')))
 
 // sử dụng cors để kiểm tra origin
-app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+    origin: (req, next) => {
+      console.log(req)
+      next(null, true)
+    },
+  })
+)
 
 // sử dụng body-parser để parse body
 app.use(bodyParser.urlencoded({ extended: true }))
