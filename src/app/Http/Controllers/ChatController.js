@@ -135,12 +135,15 @@ const removeFromGroup = async (req, res, next) => {
       })
     }
 
+    const userRemove = await User.findById(userId).select('-code -password')
+
     if (auth._id.toString() === userId) {
       // bắn sự kiện đến user trong group
       EmitSocketEvent.emit(
         removed.users.map((user) => user._id.toString()),
         ChatEvent.OUT_FROM_GROUP,
-        removed
+        removed,
+        userRemove
       )
     } else {
       EmitSocketEvent.emit(
@@ -148,9 +151,15 @@ const removeFromGroup = async (req, res, next) => {
           .filter((user) => !user._id.equals(auth._id))
           .map((user) => user._id.toString()),
         ChatEvent.REMOVE_FROM_GROUP,
-        removed
+        removed,
+        userRemove
       )
-      EmitSocketEvent.emit(userId, ChatEvent.REMOVE_FROM_GROUP, removed)
+      EmitSocketEvent.emit(
+        userId,
+        ChatEvent.REMOVE_FROM_GROUP,
+        removed,
+        userRemove
+      )
     }
 
     return res.json(removed)
@@ -186,12 +195,15 @@ const addToGroup = async (req, res, next) => {
       })
     }
 
+    const userAdd = await User.findById(userId).select('-code -password')
+
     EmitSocketEvent.emit(
       added.users
         .filter((user) => !user._id.equals(auth._id))
         .map((user) => user._id.toString()),
       ChatEvent.ADD_TO_GROUP,
-      added
+      added,
+      userAdd
     )
 
     return res.json(added)
