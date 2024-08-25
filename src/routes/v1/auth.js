@@ -38,4 +38,6 @@ router.put(
   AuthController.updateAvatar
 )
 
+router.get('/profile', validateUser, AuthController.getInfo)
+router.put('/profile', validateUser, AuthController.updateInfo)
 export default router

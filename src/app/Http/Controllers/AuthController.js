@@ -121,10 +121,40 @@ const updateAvatar = async (req, res, next) => {
   }
 }
 
+const getInfo = async (req, res, next) => {
+  try {
+    const auth = req.user
+
+    return res.json(auth)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const updateInfo = async (req, res, next) => {
+  try {
+    const auth = req.user
+    const { fullName, gender } = req.body
+
+    auth.fullName = fullName
+    auth.gender = gender
+
+    await auth.save()
+
+    return res.json({
+      message: 'Đổi thông tin thành công',
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 export default {
   login,
   register,
   requestResetPassword,
   handleResetPassword,
   updateAvatar,
+  getInfo,
+  updateInfo,
 }
