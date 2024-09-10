@@ -14,7 +14,9 @@ const validateBody = (schema) => {
     const validatorResult = schema.validate(req.body)
 
     if (validatorResult.error) {
-      return res.status(422).json({ message: validatorResult.error })
+      return res
+        .status(422)
+        .json({ message: validatorResult.error.details[0].message })
     }
     next()
   }
